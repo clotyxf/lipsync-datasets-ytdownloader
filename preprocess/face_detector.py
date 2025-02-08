@@ -33,7 +33,7 @@ class FaceDetector:
         except:
             return info
 
-        info["fps"] = cap.get(cv2.CAP_PROP_FPS)
+        info["fps"] = float(cap.get(cv2.CAP_PROP_FPS))
         info["frame_count"] = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         info["width"] = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
         info["height"] = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -88,11 +88,6 @@ class FaceDetector:
 
     def video_has_face(self, video_path: str):
         try:
-            video_info = self.get_video_info(video_path)
-
-            if (video_info["frame_count"] / video_info["fps"]) < 3:
-                return False
-
             video_frames = self.get_video_frames(video_path)
         except Exception as e:
             print(f"Exception: {e} - {video_path}")

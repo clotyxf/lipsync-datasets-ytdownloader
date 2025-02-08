@@ -63,6 +63,12 @@ if __name__ == "__main__":
     parser.add_argument("--output_dir", type=str, default="./datasets", help="output directory, default: ./datasets")
     parser.add_argument("--threshold", type=float, default=2.0, help="scenedetect threshold, default: 2.0")
     parser.add_argument("--workers", type=int, default=1, help="proccessing workers, default: 1")
+    parser.add_argument(
+        "--process_modes",
+        type=str,
+        default="resample_fps,split_video,auto_crop",
+        help="processing modes, can be 'resample_fps,split_video,auto_crop', default: 'resample_fps,split_video,auto_crop'",
+    )
 
     args = parser.parse_args()
     processing_vid_root = os.path.join(args.output_dir, "tmp")
@@ -104,6 +110,7 @@ if __name__ == "__main__":
                 output_dir=processing_vid_root,
                 scene_threshold=args.threshold,
                 num_workers=args.workers,
+                modes=args.process_modes,
             )
 
             for video_path in video_paths:

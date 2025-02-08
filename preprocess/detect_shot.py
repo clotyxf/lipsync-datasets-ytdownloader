@@ -14,5 +14,5 @@ def split_video_into_scenes(video_path: str, output_dir: str, threshold=2.0):
         scene_list,
         output_dir=output_dir,
         show_progress=True,
-        arg_override="-map 0:v:0 -map 0:a? -map 0:s? -c:v copy -c:a aac",
+        arg_override="-map 0:v:0 -map 0:a? -map 0:s? -c:v libx264 -preset veryfast -crf 5 -c:a aac",
     )

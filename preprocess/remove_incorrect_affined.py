@@ -10,10 +10,26 @@ def remove_incorrect_affined(video_path: str):
     if not os.path.isfile(video_path):
         return
     face_detector = FaceDetector()
-    has_face = face_detector.video_has_face(video_path)
-    if not has_face:
+    is_bad = False
+
+    try:
+        video_info = face_detector.get_video_info(video_path)
+
+        if (video_info["frame_count"] / video_info["fps"]) < 2:
+            is_bad = True
+    except Exception as e:
+        print(f"Exception: {e} - {video_path}")
+        is_bad = True
+
+    if is_bad:
         os.remove(video_path)
         print(f"Removed: {video_path}")
+    else:
+        has_face = face_detector.video_has_face(video_path)
+        if not has_face:
+            os.remove(video_path)
+            print(f"Removed: {video_path}")
+
     face_detector.close()
 
 
