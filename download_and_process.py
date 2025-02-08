@@ -56,15 +56,13 @@ if __name__ == "__main__":
         "--proxy_url",
         type=str,
         default="",
-        help=(
-            "Use the specified HTTP/HTTPS/SOCKS proxy. To enable SOCKS proxy, specify a proper scheme,",
-            "e.g. socks5://user:pass@127.0.0.1:1080/.Pass in an empty string (--proxy " ") for direct connection",
-        ),
+        help="Use the specified HTTP/HTTPS/SOCKS proxy. To enable SOCKS proxy, specify a proper scheme, e.g. socks5://user:pass@127.0.0.1:1080/.Pass in an empty string (--proxy "
+        ") for direct connection",
     )
-    parser.add_argument("--video_data", type=str, help="Netscape formatted file to read youtube_id")
-    parser.add_argument("--output_dir", type=str, default="./datasets", help="output directory")
-    parser.add_argument("--threshold", type=float, default=2.0, help="scenedetect threshold")
-    parser.add_argument("--workers", type=int, default=1, help="proccessing workers")
+    parser.add_argument("--video_meta_file", type=str, help="Netscape formatted file to read youtube_id")
+    parser.add_argument("--output_dir", type=str, default="./datasets", help="output directory, default: ./datasets")
+    parser.add_argument("--threshold", type=float, default=2.0, help="scenedetect threshold, default: 2.0")
+    parser.add_argument("--workers", type=int, default=1, help="proccessing workers, default: 1")
 
     args = parser.parse_args()
     processing_vid_root = os.path.join(args.output_dir, "tmp")
@@ -74,7 +72,7 @@ if __name__ == "__main__":
     os.makedirs(processed_vid_root, exist_ok=True)
     os.makedirs(raw_vid_root, exist_ok=True)
 
-    video_data = load_data(args.video_data)
+    video_data = load_data(args.video_meta_file)
 
     for youtube_id in video_data:
         video_url = "https://www.youtube.com/watch?v=" + youtube_id
@@ -104,7 +102,7 @@ if __name__ == "__main__":
             video_paths = data_processing_pipeline(
                 video_file=raw_vid_path,
                 output_dir=processing_vid_root,
-                secene_threshold=args.threshold,
+                scene_threshold=args.threshold,
                 num_workers=args.workers,
             )
 
